@@ -26,7 +26,6 @@ export const nftReducer = (state = intialState, { type, payload }) => {
 };
 
 export const selectedNftReducer = (state = {}, { type, payload }) => {
-  console.log(type);
   switch (type) {
     case ActionTypes.SELECTED_NFT:
       return { ...state, ...payload };

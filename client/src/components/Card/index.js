@@ -16,7 +16,7 @@ import { ReactComponent as EthereumLogo } from "../../assets/ethereum_logo.svg";
 
 const Card = ({ tokenId, name, image, price, owner, isForSale }) => {
   const classes = useStyles();
-  console.log("image: ", image);
+
   return (
     <Link to={`/nft/${tokenId}`}>
       <MuiCard className={classes.root}>
@@ -37,12 +37,14 @@ const Card = ({ tokenId, name, image, price, owner, isForSale }) => {
               >
                 {name}
               </Typography>
-              <Chip
-                size="small"
-                disabled={true}
-                label="Selling"
-                className={classes.badge}
-              />
+              {isForSale && (
+                <Chip
+                  size="small"
+                  disabled={true}
+                  label="Selling"
+                  className={classes.badge}
+                />
+              )}
             </div>
             <Typography variant="h6" className={classes.price}>
               <SvgIcon
@@ -50,7 +52,7 @@ const Card = ({ tokenId, name, image, price, owner, isForSale }) => {
                 viewBox="0 0 400 426.6"
                 titleAccess="ETH"
               />
-              <span>{Web3.utils.fromWei(String(price), "ether")}.120000</span>
+              <span>{Web3.utils.fromWei(String(price), "ether")}</span>
             </Typography>
             <Divider className={classes.divider} light />
             <Typography

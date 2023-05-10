@@ -12,8 +12,8 @@ import { api } from "../../services/api";
 const CreateNFT = () => {
   const classes = useStyles();
   const history = useHistory();
-
   const account = useSelector((state) => state.allNft.account);
+  const nftList = useSelector((state) => state.allNft.nft);
   const artTokenContract = useSelector(
     (state) => state.allNft.artTokenContract
   );
@@ -27,9 +27,7 @@ const CreateNFT = () => {
 
   function handleInputChange(event) {
     let { name, value } = event.target;
-    // if(name === 'image'){
-    //   value = event.target.files[0];
-    // }
+
     setFormData({ ...formData, [name]: value });
   }
 
@@ -38,6 +36,7 @@ const CreateNFT = () => {
     
     const { title, description, price } = formData;
     const data = new FormData();
+    let tokenId = 0;
 
     data.append("name", title);
     data.append("description", description);
@@ -49,7 +48,8 @@ const CreateNFT = () => {
 
     try {
       const totalSupply = await artTokenContract.methods.totalSupply().call();
-      data.append("tokenId", Number(totalSupply) + 1);
+      tokenId = Number(totalSupply) + 1
+      data.append("tokenId", tokenId);
 
       const response = await api.post("/tokens", data, {
         headers: {
@@ -57,20 +57,40 @@ const CreateNFT = () => {
         },
       });
 
-      mint(response.data.message);
+      mint(response.data.message, tokenId);
     } catch (error) {
       console.log(error);
     }
   }
 
-  async function mint(tokenMetadataURL) {
+  async function mint(tokenMetadataURL, tokenId) {
     try {
-      const receipt = await artTokenContract.methods
+      await artTokenContract.methods
         .mint(tokenMetadataURL)
         .send({ from: account, gas: '6721975' });
-      console.log(receipt);
-      console.log(receipt.events.Transfer.returnValues.tokenId);
   
+      const response = await api
+        .get(`/tokens/${tokenId}`)
+        .catch((err) => {
+          console.log("Err: ", err);
+      });
+
+      let item = await artTokenContract.methods.Items(tokenId).call();
+
+      nftList.push({
+        name: response.data.name,
+        description: response.data.description,
+        image: response.data.image,
+        tokenId: item.id,
+        creator: item.creator,
+        owner: account,
+        uri: tokenMetadataURL,
+        isForSale: false,
+        saleId: null,
+        price: 0,
+        isSold: null,
+      });
+      
       history.push('/');
     } catch (error) {
       console.error("Error, minting: ", error);
