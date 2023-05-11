@@ -7,6 +7,10 @@ module.exports = {
       port: 7545,            // Standard Ethereum port (default: none)
       network_id: "*",       // Any network (default: none)
     },
+    testnet: {
+      url: "https://goerli.infura.io/v3/",            // Standard Ethereum port (default: none)
+      network_id: "5",       // Any network (default: none)
+    },
   },
 
   compilers: {

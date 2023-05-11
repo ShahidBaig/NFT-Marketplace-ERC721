@@ -1,43 +1,32 @@
 const mongoose = require('mongoose');
-const uri = 'mongodb+srv://KH_Saif:FqYEzIDpQ7TFTTNp@cluster0.fuxla.mongodb.net/NFT-Marketplace-ERC721?retryWrites=true&w=majority';
 const upload = require('../config/uploadConfig');
+const nftModel = require('../models/nft');
+const nftData = nftModel.nft;
 
 const tokensRoutes = (app) => {
-  mongoose.connect(uri);
-
-  const nftSchema = new mongoose.Schema({
-    tokenId: String,
-    name: String,
-    description: String,
-    price: String,
-    image: String,
-  });
-
-  const nftSave = mongoose.model('NFT', nftSchema);
-
   // INDEX
-  app.get('/tokens/:tokenID', (req, res) => {
+  app.get('/tokens/:tokenID', async (req, res) => {
     const { tokenID } = req.params;
+    const tokens = await nftData.find({ tokenId: tokenID });
 
-    res.status(200).json(tokens[tokenID]);
+    if (tokens.length == 0) {
+      return res.status(404).json({});
+    }
+
+    res.status(200).json(tokens[0]);
   });
 
   // CREATE
-  app.post('/tokens', upload.single('img'), async (req, res) => {
+  app.post('/tokens', upload.single('img'), (req, res) => {
     const { filename } = req.file;
-    const { tokenId, name, description, price } = req.body;
-
-    let nft = new nftSave();
     
-    nft.tokenId = tokenId;
-    nft.name = name;
-    nft.description = description;
-    nft.price = price;
+    let nft = new nftData(req.body);
+    
     nft.image = req.protocol + '://' + req.get('host') + '/images/' + filename;
 
-    await nft.save();
+    nft.save();
 
-    var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl + '/' + tokenId;
+    var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl + '/' +  req.body.tokenId;
 
     res.status(201).json({ message: fullUrl });
   });
