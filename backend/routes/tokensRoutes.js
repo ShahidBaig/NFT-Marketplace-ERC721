@@ -17,14 +17,14 @@ const tokensRoutes = (app) => {
   });
 
   // CREATE
-  app.post('/tokens', upload.single('img'), (req, res) => {
+  app.post('/tokens', upload.single('img'), async (req, res) => {
     const { filename } = req.file;
     
     let nft = new nftData(req.body);
     
     nft.image = req.protocol + '://' + req.get('host') + '/images/' + filename;
 
-    nft.save();
+    await nft.save();
 
     var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl + '/' +  req.body.tokenId;
 
