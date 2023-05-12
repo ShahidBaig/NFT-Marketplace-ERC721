@@ -83,19 +83,38 @@ const Home = () => {
                 console.log("Err: ", err);
               });
   
-            itemsList.push({
-              name: response.data.name,
-              description: response.data.description,
-              image: response.data.image,
-              tokenId: item.id,
-              creator: item.creator,
-              owner: owner,
-              uri: item.uri,
-              isForSale: false,
-              saleId: null,
-              price: 0,
-              isSold: null,
-            });
+            try {
+              itemsList.push({
+                name: response.data.name,
+                description: response.data.description,
+                image: response.data.image,
+                tokenId: item.id,
+                creator: item.creator,
+                owner: owner,
+                uri: item.uri,
+                isForSale: false,
+                saleId: null,
+                price: 0,
+                isSold: null,
+              });
+            }
+            catch (e) {
+              console.error("Error", e);
+
+              itemsList.push({
+                name: 'MISSING',
+                description: 'MISSING',
+                image: '',
+                tokenId: tokenId,
+                creator: '',
+                owner: owner,
+                uri: '',
+                isForSale: false,
+                saleId: null,
+                price: 0,
+                isSold: null,
+              });
+            }
           }
           if (totalItemsForSale > 0) {
             for (var saleId = 0; saleId < totalItemsForSale; saleId++) {
