@@ -24,3 +24,6 @@ yarn-debug.log*
 yarn-error.log*
 backend/imgs
 backend/routes/db.json
+
+# Local Netlify folder
+.netlify

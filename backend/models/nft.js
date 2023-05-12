@@ -8,4 +8,4 @@ const nftSchema = new mongoose.Schema({
     image: String,
   });
 
-exports.nft = mongoose.model('NFT', nftSchema); 
+exports.nft = mongoose.model('goerli', nftSchema); 
