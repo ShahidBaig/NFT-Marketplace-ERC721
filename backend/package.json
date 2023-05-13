@@ -8,7 +8,6 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "arweave": "^1.13.7",
     "cids": "^1.1.9",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
