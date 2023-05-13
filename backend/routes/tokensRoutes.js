@@ -1,7 +1,7 @@
 const axios = require('axios')
 const upload = require('../config/uploadConfig');
 const nftModel = require('../models/nft');
-const { IPFSDataClient } = require('../datastore/ipfsclient')
+// const { IPFSDataClient } = require('../datastore/ipfsclient')
 const { Readable } = require("stream");
 const config = require('getconfig')
 const FormData = require("form-data");
