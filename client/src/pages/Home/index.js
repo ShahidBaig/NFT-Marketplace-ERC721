@@ -76,7 +76,7 @@ const Home = () => {
           dispatch(setTokenContract(artTokenContract));
           dispatch(setMarketContract(marketplaceContract));
     
-          for (var tokenId = 1; tokenId <= totalSupply; tokenId++) {
+          for (var tokenId = totalSupply; tokenId >= 1; tokenId--) {
             let item = await artTokenContract.methods.Items(tokenId).call();
             let owner = await artTokenContract.methods.ownerOf(tokenId).call();
   
@@ -119,6 +119,7 @@ const Home = () => {
               });
             }
           }
+
           if (totalItemsForSale > 0) {
             for (var saleId = 0; saleId < totalItemsForSale; saleId++) {
               let item = await marketplaceContract.methods

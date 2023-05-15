@@ -71,9 +71,11 @@ const CreateNFT = () => {
 
   async function mint(data) {
     try {
-      await artTokenContract.methods
+      const item = await artTokenContract.methods
         .mint(data.tokenMetadataURL)
         .send({ from: account, gas: '6721975' });
+
+      console.log(item);
   
       nftList.push({
         name: data.name,
