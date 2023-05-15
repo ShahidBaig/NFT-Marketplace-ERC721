@@ -43,7 +43,7 @@ const CreateNFT = () => {
     data.append("price", price);
 
     if(selectedFile) {
-      data.append('img', selectedFile);
+      data.append("img", selectedFile);
     }
 
     try {
@@ -57,34 +57,32 @@ const CreateNFT = () => {
         },
       });
 
-      mint(response.data.message, tokenId);
+      mint({
+        tokenMetadataURL: response.data.message, 
+        tokenId: tokenId,
+        name: title,
+        description: description,
+        price: price
+      });
     } catch (error) {
       console.log(error);
     }
   }
 
-  async function mint(tokenMetadataURL, tokenId) {
+  async function mint(data) {
     try {
       await artTokenContract.methods
-        .mint(tokenMetadataURL)
+        .mint(data.tokenMetadataURL)
         .send({ from: account, gas: '6721975' });
   
-      const response = await api
-        .get(`/tokens/${tokenId}`)
-        .catch((err) => {
-          console.log("Err: ", err);
-      });
-
-      let item = await artTokenContract.methods.Items(tokenId).call();
-
       nftList.push({
-        name: response.data.name,
-        description: response.data.description,
-        image: response.data.image,
-        tokenId: item.id,
-        creator: item.creator,
+        name: data.name,
+        description: data.description,
+        image: data.tokenMetadataURL,
+        tokenId: data.tokenId,
+        creator: account,
         owner: account,
-        uri: tokenMetadataURL,
+        uri: data.tokenMetadataURL,
         isForSale: false,
         saleId: null,
         price: 0,
