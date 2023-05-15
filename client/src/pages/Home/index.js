@@ -61,7 +61,6 @@ const Home = () => {
             ArtToken.abi,
             ArtToken.networks[networkId].address
           );
-  
           const marketplaceContract = new web3.eth.Contract(
             ArtMarketplace.abi,
             ArtMarketplace.networks[networkId].address
@@ -73,6 +72,10 @@ const Home = () => {
             .totalItemsForSale()
             .call();
   
+          dispatch(setAccount(accounts[0]));
+          dispatch(setTokenContract(artTokenContract));
+          dispatch(setMarketContract(marketplaceContract));
+    
           for (var tokenId = 1; tokenId <= totalSupply; tokenId++) {
             let item = await artTokenContract.methods.Items(tokenId).call();
             let owner = await artTokenContract.methods.ownerOf(tokenId).call();
@@ -138,10 +141,7 @@ const Home = () => {
               };
             }
           }
-  
-          dispatch(setAccount(accounts[0]));
-          dispatch(setTokenContract(artTokenContract));
-          dispatch(setMarketContract(marketplaceContract));
+
           dispatch(setNft(itemsList));
         } catch (error) {
           console.error("Error", error);
