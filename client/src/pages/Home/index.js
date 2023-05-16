@@ -85,9 +85,9 @@ const Home = () => {
             //   .catch((err) => {
             //     console.log("Err: ", err);
             //   });
-            const response = JSON.parse(item.uri);
-  
             try {
+              const response = JSON.parse(item.uri);
+  
               itemsList.push({
                 name: response.name,
                 description: response.description,
@@ -108,11 +108,11 @@ const Home = () => {
               itemsList.push({
                 name: 'MISSING',
                 description: 'MISSING',
-                image: '',
+                image: item.uri,
                 tokenId: tokenId,
                 creator: '',
                 owner: owner,
-                uri: '',
+                uri: item.uri,
                 isForSale: false,
                 saleId: null,
                 price: 0,
