@@ -80,21 +80,22 @@ const Home = () => {
             let item = await artTokenContract.methods.Items(tokenId).call();
             let owner = await artTokenContract.methods.ownerOf(tokenId).call();
   
-            const response = await api
-              .get(`/tokens/${tokenId}`)
-              .catch((err) => {
-                console.log("Err: ", err);
-              });
+            // const response = await api
+            //   .get(`/tokens/${tokenId}`)
+            //   .catch((err) => {
+            //     console.log("Err: ", err);
+            //   });
+            const response = JSON.parse(item.uri);
   
             try {
               itemsList.push({
-                name: response.data.name,
-                description: response.data.description,
-                image: response.data.image,
+                name: response.name,
+                description: response.description,
+                image: response.tokenMetadataURL,
                 tokenId: item.id,
                 creator: item.creator,
                 owner: owner,
-                uri: item.uri,
+                uri: response,
                 isForSale: false,
                 saleId: null,
                 price: 0,

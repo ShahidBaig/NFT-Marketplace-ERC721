@@ -48,6 +48,7 @@ const CreateNFT = () => {
 
     try {
       const totalSupply = await artTokenContract.methods.totalSupply().call();
+      
       tokenId = Number(totalSupply) + 1
       data.append("tokenId", tokenId);
 
@@ -72,7 +73,7 @@ const CreateNFT = () => {
   async function mint(data) {
     try {
       const item = await artTokenContract.methods
-        .mint(data.tokenMetadataURL)
+        .mint(JSON.stringify(data))
         .send({ from: account, gas: '6721975' });
 
       console.log(item);

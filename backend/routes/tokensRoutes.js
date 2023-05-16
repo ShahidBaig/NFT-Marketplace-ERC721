@@ -46,7 +46,7 @@ const tokensRoutes = (app) => {
       //   cidVersion: 0,
       // });
 
-      let nft = new nftData(req.body);
+      // let nft = new nftData(req.body);
 
       // formData.append('pinataMetadata', metadata);   
       // formData.append('pinataOptions', options);
@@ -64,11 +64,11 @@ const tokensRoutes = (app) => {
 
       // console.log(postRes.data); //isDuplicate
 
-      nft.image = `${config.pinata_gateway_url}${postRes.data.IpfsHash}`;
+      // nft.image = `${config.pinata_gateway_url}${postRes.data.IpfsHash}`;
 
-      await nft.save();
+      // await nft.save();
 
-      res.status(201).json({ message: nft.image });
+      res.status(201).json({ message: `${config.pinata_gateway_url}${postRes.data.IpfsHash}` });
     } 
     catch (error) {
       console.log(error);
