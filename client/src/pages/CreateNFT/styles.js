@@ -11,7 +11,7 @@ const useStyles = makeStyles({
       maxWidth: "730px",
       background: "#FFF",
       borderRadius: "8px",
-    
+
       display: "flex",
       flexDirection: "column",
 
@@ -21,7 +21,7 @@ const useStyles = makeStyles({
         justifyContent: "space-evenly",
         alignItems: "center",
 
-        width: "400px",
+        width: "620px",
         minWidth: "240px",
         marginTop: "64px",
         marginLeft: "2rem",

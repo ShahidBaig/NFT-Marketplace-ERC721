@@ -11,14 +11,14 @@ const useStyles = makeStyles({
       maxWidth: "730px",
       background: "#FFF",
       borderRadius: "8px",
-    
+
       display: "flex",
       flexDirection: "column",
 
       '& header': {
         display: "flex",
         alignItems: "center",
-    
+
         '& a': {
           margin: "1rem auto 0.5rem 1.5rem",
         }
@@ -28,10 +28,10 @@ const useStyles = makeStyles({
         // display: "flex",
         // flexDirection: "row",
         // justifyContent: "center",
-        
+
         '& figure': {
           height: "350px",
-          
+
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
@@ -40,7 +40,7 @@ const useStyles = makeStyles({
           '& img': {
             width: "100% !important",
             height: "100% !important",
-            objectFit: "cover !important",
+            objectFit: "unset !important",
             borderRadius: "10px",
           },
         },

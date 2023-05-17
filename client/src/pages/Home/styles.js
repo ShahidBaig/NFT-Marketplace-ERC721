@@ -5,10 +5,10 @@ const useStyles = makeStyles({
 
   },
   images: {
-    objectFit: "cover",
+    objectFit: "unset",
     width: "100%",
     height: "100%",
-    
+
   },
   banner: {
     // minHeight: "50vh",

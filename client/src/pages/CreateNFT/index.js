@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import CancelOutlinedIcon  from "@material-ui/icons/CancelOutlined";
+import CancelOutlinedIcon from "@material-ui/icons/CancelOutlined";
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { useStyles } from "./styles.js";
 import DropZone from "../../components/DropZone";
 import { api } from "../../services/api";
+import { Blocks } from 'react-loader-spinner';
 
 const CreateNFT = () => {
   const classes = useStyles();
@@ -18,6 +19,7 @@ const CreateNFT = () => {
     (state) => state.allNft.artTokenContract
   );
 
+  const [loading, setLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState();
   const [formData, setFormData] = useState({
     title: "",
@@ -33,7 +35,8 @@ const CreateNFT = () => {
 
   async function createNFT(event) {
     event.preventDefault();
-    
+    setLoading(true);
+
     const { title, description, price } = formData;
     const data = new FormData();
     let tokenId = 0;
@@ -42,13 +45,13 @@ const CreateNFT = () => {
     data.append("description", description);
     data.append("price", price);
 
-    if(selectedFile) {
+    if (selectedFile) {
       data.append("img", selectedFile);
     }
 
     try {
       const totalSupply = await artTokenContract.methods.totalSupply().call();
-      
+
       tokenId = Number(totalSupply) + 1
       data.append("tokenId", tokenId);
 
@@ -59,7 +62,7 @@ const CreateNFT = () => {
       });
 
       mint({
-        tokenMetadataURL: response.data.message, 
+        tokenMetadataURL: response.data.message,
         tokenId: tokenId,
         name: title,
         description: description,
@@ -67,6 +70,7 @@ const CreateNFT = () => {
       });
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   }
 
@@ -77,7 +81,7 @@ const CreateNFT = () => {
         .send({ from: account, gas: '6721975' });
 
       console.log(item);
-  
+
       nftList.push({
         name: data.name,
         description: data.description,
@@ -91,11 +95,12 @@ const CreateNFT = () => {
         price: 0,
         isSold: null,
       });
-      
+
       history.push('/');
     } catch (error) {
       console.error("Error, minting: ", error);
       alert("Error while minting!");
+      setLoading(false);
     }
   }
 
@@ -146,7 +151,21 @@ const CreateNFT = () => {
               fullWidth
             />
 
-            <Button variant="contained" color="primary" type="submit">
+            <Button variant="contained" color="primary" type="submit" disabled={loading}>
+              <div >
+                {loading ? (
+                  <Blocks
+                    visible={true}
+                    height="40"
+                    width="40"
+                    ariaLabel="blocks-loading"
+                    wrapperStyle={{}}
+                    wrapperClass="blocks-wrapper"
+                  />
+                ) : (
+                  <p></p>
+                )}
+              </div>
               Submit
             </Button>
           </fieldset>
