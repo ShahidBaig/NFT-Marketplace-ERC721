@@ -17,6 +17,12 @@ import { ReactComponent as EthereumLogo } from "../../assets/ethereum_logo.svg";
 const Card = ({ tokenId, name, image, price, owner, isForSale }) => {
   const classes = useStyles();
 
+  const styles = {
+    media: {
+      objectFit: "unset"
+    }
+  };
+
   return (
     <Link to={`/nft/${tokenId}`}>
       <MuiCard className={classes.root}>
@@ -27,6 +33,7 @@ const Card = ({ tokenId, name, image, price, owner, isForSale }) => {
             height="240"
             image={image}
             title={name}
+            style={styles.media} // specify styles
           />
           <CardContent className={classes.content}>
             <div className={classes.title}>
