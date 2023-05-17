@@ -27,3 +27,4 @@ backend/routes/db.json
 
 # Local Netlify folder
 .netlify
+truffle-config.js
